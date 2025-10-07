@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${mode == 'wakeup'} ? '起床時刻の計算' : '就寝時刻の計算'">睡眠サイクル計算</title>
+    <style>
+        body { font-family: "Hiragino Sans", sans-serif; margin: 40px; }
+        form { margin-bottom: 30px; }
+        input, button { padding: 6px; margin: 4px; font-size: 1rem; }
+        h1 { color: #2c3e50; }
+        ul { list-style: none; padding: 0; }
+        li { margin-bottom: 6px; }
+        .error { color: red; }
+        .result { background: #f4f8ff; padding: 15px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+
+    <h1>睡眠サイクルおすすめ計算</h1>
+
+    <p th:if="${error}" th:text="${error}" class="error"></p>
+
+    <!-- 起床時間を計算するフォーム -->
+    <form th:if="${mode == 'wakeup'}" th:action="@{/wakeup}" method="post" th:object="${wakeUpRequest}">
+        <h2>🛏️ 起床時刻を計算</h2>
+        <label>就寝時刻(例：23:00)：</label>
+        <input type="time" th:field="*{bedTime}" required><br>
+        <label>希望睡眠時間（時間単位 例：7.5）：</label>
+        <input type="number" step="0.5" min="0.5" th:field="*{desiredHours}" required><br>
+        <button type="submit">起床時間を計算</button>
+    </form>
+    
+
+
+    <!-- 就寝時間を計算するフォーム-->
+    <form th:if="${mode == 'bed'}" th:action="@{/bed}" method="post" th:object="${bedTimeRequest}">
+        <h2>🌙 就寝時刻を計算</h2>
+        <label>起床時刻（例：7:00）：</label>
+        <input type="time" th:field="*{targetWakeUpTime}" required><br>
+        <label>希望睡眠時間（時間単位 例：7.5）：</label>
+        <input type="number" step="0.5" min="0.5" th:field="*{desiredHours}" required><br>
+        <button type="submit">就寝時間を計算</button>
+    </form>
+
+
+    <!-- 計算結果 -->
+    <div class="result" th:if="${candidates}">
+        <h2 th:text="${mode == 'wakeup' ? '🛏️ おすすめ起床時間候補' : '🌙 おすすめ就寝時間候補'}"></h2>
+        <ul>
+            <li th:each="t : ${candidates}" th:text="${t}"></li>
+        </ul>
+    </div>
+
+
+</body>
+</html>
