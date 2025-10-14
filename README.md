@@ -44,6 +44,13 @@ IDE	VSCode
 ブラウザで以下にアクセス
 → http://localhost:8080/wakeup または http://localhost:8080/bed
 
+●画面イメージ
+![就寝時刻入力フォーム](./docs/form1.png)
+![起床時刻入力フォーム](./docs/form2.png)
+![結果フォーム](./docs/result1.png)
+![結果フォーム](./docs/result2.png)
+
+
 ●学んだこと
 ・　Spring MVC における基本的な（Controller → Model→ Service → Model → View）の流れ
 ・	@ModelAttribute によるフォームデータの受け渡し
